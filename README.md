@@ -34,6 +34,11 @@ DSH 的会话目录里同时存着两类记录：
 
 `workspace.json` 的写入采用临时文件加改名替换；若宿主正持有该文件，写入会放弃，由宿主下次启动时自行重算。
 
+## 在另一台电脑上修改
+
+
+跨电脑拉取、挂载、修改、推送的完整步骤见 [docs/usage-on-another-machine.md](docs/usage-on-another-machine.md)。
+
 ## 安装
 
 插件以 `link:` 方式挂载，不经过包管理器：
