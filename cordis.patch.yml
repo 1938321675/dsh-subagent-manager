@@ -1,0 +1,7 @@
+# dsh-subagent-manager bundle patch
+#
+# 挂载子代理会话管理插件本体（宿主 + 浏览器半身）。
+- insert:
+    - id: subagent-manager
+      name: 'dsh-subagent-manager'
+      config: {}
