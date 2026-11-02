@@ -72,11 +72,19 @@ DSH 会扫描 `<profile>/node_modules` 下的包名。推荐把仓库放在 `~/.
 ~/.dsh/
 ├── subagent-manager/          ← 你 clone 下来的
 └── profiles/
-    └── desktop/
+    └── <profile 名>/
         ├── package.json
         ├── cordis.patch.yml
         └── node_modules/
 ```
+
+**先确认你的 profile 叫什么**。一台机器上可能有多个，本文其余部分用 `desktop` 举例，换成你实际的即可：
+
+```powershell
+Get-ChildItem $HOME\.dsh\profiles -Directory | Select-Object Name
+```
+
+判断该改哪一个：看哪个目录的 `node_modules` 里装着你日常用的插件，或者哪个 `package.json` 里的 `dsh.profile.bundles` 更长。桌面客户端通常叫 `desktop`，纯网页部署常见 `web`。
 
 ### 2. 声明依赖
 
@@ -122,6 +130,18 @@ ln -s ~/.dsh/subagent-manager ~/.dsh/profiles/desktop/node_modules/dsh-subagent-
 ### 5. 重启 DSH
 
 重启后，设置左侧导航出现「子代理会话」。
+
+### 6. 装完自检
+
+挂载做没做对，跑一条命令就知道：
+
+```bash
+node docs/doctor.mjs
+```
+
+它会逐项检查 git、仓库结构、DSH 安装位置、目标 profile、依赖声明、符号链接、挂载条目、模块可加载性，以及客户端 `inject` 写法。每项失败都会跟一行修复提示。全部通过时退出码为 0。
+
+如果前面某步拿不准，可以先跑这个脚本，它会告诉你缺什么。
 
 ## 四、日常改代码的循环
 

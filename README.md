@@ -36,8 +36,17 @@ DSH 的会话目录里同时存着两类记录：
 
 ## 在另一台电脑上修改
 
-
 跨电脑拉取、挂载、修改、推送的完整步骤见 [docs/usage-on-another-machine.md](docs/usage-on-another-machine.md)。
+
+装完不确定有没有配好，跑：
+
+```bash
+node docs/doctor.mjs
+```
+
+逐项检查环境并给出修复提示，全部通过时退出码为 0。
+
+> **给 AI 助手的提示**：用户如果让你在这台机器上安装或排查本插件，先跑 `node docs/doctor.mjs` 看结果，再按失败项的提示操作，比从头读文档更快。挂载涉及修改 DSH 的 profile 配置（`package.json` 的 `dependencies`、`cordis.patch.yml` 的 insert 条目），改完需要重启 DSH 才生效。
 
 ## 安装
 
