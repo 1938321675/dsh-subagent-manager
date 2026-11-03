@@ -150,8 +150,15 @@ if (profileRoot !== undefined) {
   let detail = '找不到 cordis.patch.yml'
   if (existsSync(patchPath)) {
     const text = readFileSync(patchPath, 'utf8')
-    const hasEntry = text.includes(PACKAGE_NAME)
-    const disabled = new RegExp(`-\\s*id:\\s*subagent-manager[\\s\\S]{0,200}?disabled:\\s*true`).test(text)
+    // 注释行里也可能出现 disabled: true（例如「停用把这行的 insert 改成 disabled: true」），先剔除
+    const stripped = text
+      .split('\n')
+      .filter((line) => !/^\s*#/.test(line))
+      .join('\n')
+    const hasEntry = stripped.includes(PACKAGE_NAME)
+    // 只看本插件这条 insert 条目自身的范围，到下一个顶级条目为止
+    const block = new RegExp(`-\\s*id:\\s*subagent-manager\\b[\\s\\S]*?(?=\\n-\\s|$)`).exec(stripped)
+    const disabled = block !== null && /disabled:\s*true/.test(block[0])
     ok = hasEntry && !disabled
     detail = !hasEntry ? '没有挂载条目' : disabled ? '有条目但被 disabled' : '挂载条目就绪'
   }
